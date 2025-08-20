@@ -74,7 +74,7 @@ plusOneSelect.addEventListener("change", (event) => {
   }
 });
 
-form.addEventListener("submit", async (event) => {
+form.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const nameInput = document.querySelector('input[name="name"]');
@@ -101,25 +101,26 @@ form.addEventListener("submit", async (event) => {
     dueAmount: dueAmount,
   };
 
-  try {
-    const response = await fetch("/api/tokens", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-
-    const data = await response.json();
-
-    if (response.ok) {
+  fetch("/api/tokens", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        return response.json().then((data) => {
+          throw new Error(data.message || "Registration failed");
+        });
+      }
+      return response.json();
+    })
+    .then((data) => {
       window.location.href = `/success?txid=${data.transactionID}`;
-    } else {
-      alert(`Registration failed: ${data.message}`);
-      console.error("Error submitting form:", data.error);
-    }
-  } catch (error) {
-    alert("A network error occurred. Please try again.");
-    console.error("Network error:", error);
-  }
+    })
+    .catch((error) => {
+      alert(`A network error occurred: ${error.message}. Please try again.`);
+      console.error("Error submitting form:", error);
+    });
 });
