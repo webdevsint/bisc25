@@ -28,11 +28,11 @@ app.use(
 connectDB();
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "views", "index.html"));
+  res.sendFile(path.resolve("./views/index.html"));
 });
 
 app.get("/success", (req, res) => {
-  res.sendFile(path.join(__dirname, "views", "success.html"));
+  res.sendFile(path.resolve("./views/success.html"));
 });
 
 app.get("/login", (req, res) => {
@@ -73,7 +73,7 @@ app.get("/admin", (req, res) => {
 app.post("/api/tokens", async (req, res) => {
   try {
     const { name, number, transactionID, dueAmount, plusOne, plusOneName } =
-      req.body; // Create a new token
+      req.body;
 
     const newToken = new Token({
       name,
@@ -215,7 +215,7 @@ app.delete("/api/tokens/:id", async (req, res) => {
 });
 
 app.use((req, res) => {
-  res.status(404).sendFile(path.join(__dirname, "views", "404.html"));
+  res.status(404).sendFile(path.resolve("./views/404.html"));
 });
 
 app.listen(port, () => {
