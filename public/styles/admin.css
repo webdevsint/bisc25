@@ -269,6 +269,16 @@ tbody tr:nth-child(even) {
     padding: 1rem;
   }
 
+  th:first-child,
+  td:first-child {
+    width: 100%;
+  }
+
+  th:nth-child(5),
+  td:nth-child(5) {
+    width: 100%;
+  }
+
   header {
     flex-direction: column;
     align-items: center;
