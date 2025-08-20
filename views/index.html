@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BISC'25 Prom Night</title>
+    <link rel="stylesheet" href="/styles/index.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="logo-container">
+        <img src="/logo.png" alt="BISC'25 Prom" class="logo" />
+      </div>
+
+      <main>
+        <h1 class="heading">Registration</h1>
+
+        <form action="/api/tokens" method="post">
+          <div class="input">
+            <b><label for="name">Your name:</label></b>
+            <input type="text" name="name" required />
+          </div>
+
+          <div class="input">
+            <b><label for="number">Your phone number:</label></b>
+            <input type="number" name="number" required />
+          </div>
+
+          <div class="input">
+            <b>
+              <label style="color: #750d37" for="plus-one">
+                Are you bringing a plus one?
+              </label>
+            </b>
+
+            <select name="plusOne" required>
+              <option value="false">No</option>
+
+              <option value="true">Yes</option>
+            </select>
+          </div>
+
+          <div class="plus-one">
+            <div class="input">
+              <b><label for="plus-one-name">Their name:</label></b>
+              <input type="text" name="plusOneName" class="plus-one-name" />
+            </div>
+          </div>
+
+          <div class="input">
+            <b><label for="bkash">bKash Transaction ID (TXID): </label></b>
+            <input type="text" name="transactionID" required />
+
+            <p style="font-size: 14px">Send money to <b>01778840205</b></p>
+          </div>
+
+          <b>
+            <p style="margin-block: 1rem">
+              Due amount: <br />
+              <span class="amount">৳2040</span>
+            </p>
+          </b>
+
+          <button type="submit">Register</button>
+        </form>
+      </main>
+
+      <div class="footer">
+        Developed by
+        <a href="https://nehanyaser.vercel.app/" target="_blank">Nehan Yaser</a>
+      </div>
+    </div>
+
+    <script src="/scripts/index.js"></script>
+  </body>
+</html>

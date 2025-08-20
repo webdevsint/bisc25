@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Successful!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-color: #750d37;
+        --background-color: #f7f9f7;
+        --card-background: #ffffff;
+        --text-color: #000000;
+        --secondary-text-color: #666666;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Lexend", sans-serif;
+      }
+
+      body {
+        background-color: var(--background-color);
+        color: var(--text-color);
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        height: 100vh;
+        text-align: center;
+        padding: 1rem;
+      }
+
+      .logo {
+        width: 200px;
+        height: auto;
+      }
+
+      .logo-container {
+        text-align: center;
+        padding-right: 1rem;
+      }
+
+      .success-container {
+        background-color: var(--card-background);
+        border-radius: 8px;
+        box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+          rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+        padding: 3rem;
+        max-width: 500px;
+        width: 100%;
+        animation: fadeIn 1s ease-in-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      h2 {
+        font-size: 2.5em;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+      }
+
+      p {
+        font-size: 1.1em;
+        color: var(--secondary-text-color);
+        margin-bottom: 1.5rem;
+      }
+
+      .txid-display {
+        background-color: #e9ecef;
+        border-left: 5px solid var(--primary-color);
+        padding: 1rem;
+        border-radius: 4px;
+        margin-bottom: 2rem;
+      }
+
+      .txid-display p {
+        margin: 0;
+        font-size: 1.2em;
+        font-weight: 600;
+        color: var(--text-color);
+      }
+
+      .txid-display span {
+        color: var(--primary-color);
+        font-size: 1.1em;
+        word-wrap: break-word;
+      }
+
+      .home-btn {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+        display: inline-block;
+      }
+
+      .home-btn:hover {
+        background-color: #a61d4d;
+      }
+
+      @media (max-width: 960px) {
+        body {
+          flex-direction: column;
+          padding: 2rem;
+        }
+
+        h2 {
+        font-size: 2em;
+      }
+
+      p {
+        font-size: 1.em;
+      }
+
+      .txid-display p {
+        margin: 0;
+        font-size: 1em;
+      }
+
+      .txid-display span {
+        font-size: 1em;
+      }
+
+        .logo-container {
+          margin-bottom: 2rem;
+        }
+
+        .success-container {
+          width: 90%;
+          padding: 2rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .logo {
+          max-width: 160px; /* Adjust size for tablets */
+        }
+      }
+
+      @media (max-width: 480px) {
+        .logo {
+          max-width: 130px; /* Further reduce size for mobile phones */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="logo-container">
+      <img src="/logo.png" alt="BISC'25 Prom" class="logo" />
+    </div>
+
+    <div class="success-container">
+      <h2>Registration Successful!</h2>
+      <p>
+        Your registration has been submitted successfully. Please save your
+        Transaction ID for future reference.
+      </p>
+      <div class="txid-display">
+        <p>Your Transaction ID: <span id="transaction-id">Loading...</span></p>
+      </div>
+      <a href="/" class="home-btn">Go to Homepage</a>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const transactionId = urlParams.get("txid");
+
+        if (transactionId) {
+          document.getElementById("transaction-id").textContent = transactionId;
+        } else {
+          window.location.href = "/404";
+        }
+      });
+    </script>
+  </body>
+</html>
