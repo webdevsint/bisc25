@@ -1,79 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BISC Prom 2025 - Admin Dashboard</title>
-    <link rel="icon" type="image/x-icon" href="/icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/styles/admin.css">
-</head>
-<body>
-
+    <link rel="icon" type="image/x-icon" href="/icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/admin.css" />
+  </head>
+  <body>
     <div class="container">
-        <header>
-            <h2><u>Admin Dashboard</u></h2>
-            <a href="/logout" class="logout-btn">Logout</a>
-        </header>
+      <header>
+        <h2><u>Admin Panel</u></h2>
+        <div class="button-container">
+          <a href="/logout" class="logout-btn">Logout</a>
+        </div>
+      </header>
 
-        <main>
-            <div class="search-container">
-                <input type="text" id="search-bar" placeholder="Search by Name, Contact, or TXID...">
-            </div>
+      <main>
+        <div class="search-container">
+          <input
+            type="text"
+            id="search-bar"
+            placeholder="Search by Name, Contact, or TXID..."
+          />
+        </div>
 
-            <div class="table-section search-results-section" id="search-results-section">
-                <h3>Search Results</h3>
-                <div id="search-results-container" class="search-results-container">
-                    <div id="search-empty-state" class="empty-state">No matching tokens found.</div>
-                </div>
+        <div
+          class="table-section search-results-section"
+          id="search-results-section"
+        >
+          <h3>Search Results</h3>
+          <div id="search-results-container" class="search-results-container">
+            <div id="search-empty-state" class="empty-state">
+              No matching tokens found.
             </div>
+          </div>
+        </div>
 
-            <div class="table-section">
-                <h3><u>Pending Tokens</u></h3>
-                <table id="pending-table">
-                    <thead>
-                        <tr>
-                            <th>Sl.</th>
-                            <th>Name</th>
-                            <th>Contact</th>
-                            <th>TXID</th>
-                            <th>+1</th>
-                            <th>+1 Name</th>
-                            <th>Due</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-                <div id="pending-container" class="empty-state">No pending tokens found.</div>
-            </div>
-            
-            <div class="table-section">
-                <h3><u>Approved Tokens</u></h3>
-                <table id="approved-table">
-                    <thead>
-                        <tr>
-                            <th>Sl.</th>
-                            <th>Name</th>
-                            <th>Contact</th>
-                            <th>TXID</th>
-                            <th>+1</th>
-                            <th>+1 Name</th>
-                            <th>Paid</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-                <div id="approved-container" class="empty-state">No approved tokens found.</div>
-            </div>
-        </main>
+        <div class="table-section">
+          <h3><u>Pending Tokens</u></h3>
+          <table id="pending-table">
+            <thead>
+              <tr>
+                <th>Sl.</th>
+                <th>Name</th>
+                <th>Contact</th>
+                <th>TXID</th>
+                <th>+1</th>
+                <th>+1 Name</th>
+                <th>Due</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <div id="pending-container" class="empty-state">
+            No pending tokens found.
+          </div>
+        </div>
+
+        <div class="table-section">
+          <h3><u>Approved Tokens</u></h3>
+          <table id="approved-table">
+            <thead>
+              <tr>
+                <th>Sl.</th>
+                <th>Name</th>
+                <th>Contact</th>
+                <th>TXID</th>
+                <th>+1</th>
+                <th>+1 Name</th>
+                <th>Paid</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <div id="approved-container" class="empty-state">
+            No approved tokens found.
+          </div>
+        </div>
+      </main>
     </div>
-    
+
     <script src="/scripts/admin.js"></script>
-</body>
+  </body>
 </html>
