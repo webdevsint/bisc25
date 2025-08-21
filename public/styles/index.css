@@ -45,6 +45,10 @@ main {
   text-decoration: underline #750d37;
 }
 
+u {
+  text-decoration-color: #750d37;
+}
+
 form {
   display: flex;
   flex-direction: column;
@@ -81,6 +85,10 @@ button {
   border-radius: 4px;
   font-size: 1rem;
   outline: none;
+}
+
+select, option {
+  color: black;
 }
 
 span {

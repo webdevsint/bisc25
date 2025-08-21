@@ -35,6 +35,10 @@ header {
   flex-wrap: wrap;
 }
 
+u {
+  text-decoration-color: #750d37;
+}
+
 h2 {
   font-size: 2.5em;
   font-weight: 700;
