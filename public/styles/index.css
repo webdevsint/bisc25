@@ -87,6 +87,11 @@ button {
   outline: none;
 }
 
+select {
+  background: white;
+  cursor: pointer;
+}
+
 select, option {
   color: black;
 }
