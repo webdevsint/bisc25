@@ -72,10 +72,10 @@ app.get("/admin", (req, res) => {
 
 app.post("/api/tokens", async (req, res) => {
   try {
-    const { name, number, transactionID, dueAmount, plusOne, plusOneName } =
-      req.body;
+    const { name, number, transactionID, dueAmount, plusOne, plusOneName } = req.body;
 
     const newToken = new Token({
+      // We are no longer adding the id here. Mongoose will create a unique `_id` by default.
       name,
       number,
       transactionID,
@@ -84,11 +84,15 @@ app.post("/api/tokens", async (req, res) => {
       plusOneName: plusOne ? plusOneName : "",
     });
 
-    await newToken.save(); // Send a success message and the transaction ID as JSON
+    await newToken.save(); 
+    
+    // We will use Mongoose's default `_id` for the API.
     res.status(200).json({
       message: "Registration successful!",
-      transactionID: transactionID,
+      id: newToken._id,
+      transactionID: transactionID
     });
+    
   } catch (error) {
     console.error("Error creating token:", error);
     res
@@ -110,13 +114,13 @@ app.get("/api/tokens", async (req, res) => {
   }
 });
 
-// Route to get a single token by transactionID
+// Route to get a single token by its _id
 app.get("/api/tokens/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const token = await Token.findOne({
-      transactionID: id,
-    });
+    // Find the token using its _id instead of transactionID
+    const token = await Token.findById(id); 
+    
     if (!token) {
       return res.status(404).json({
         message: "Token not found",
@@ -131,14 +135,16 @@ app.get("/api/tokens/:id", async (req, res) => {
   }
 });
 
+// Route to approve a token by its _id
 app.patch("/api/tokens/approve/:id", async (req, res) => {
   try {
     const { id } = req.params;
-
-    const updatedToken = await Token.findOneAndUpdate(
-      { transactionID: id },
-      { isApproved: true }, // Update the isApproved field
-      { new: true } // Return the updated document
+    
+    // Find and update the token using its _id
+    const updatedToken = await Token.findByIdAndUpdate(
+      id,
+      { isApproved: true },
+      { new: true }
     );
 
     if (!updatedToken) {
@@ -159,13 +165,14 @@ app.patch("/api/tokens/approve/:id", async (req, res) => {
   }
 });
 
-// Route to revoke an approved token
+// Route to revoke a token by its _id
 app.patch("/api/tokens/revoke/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
-    const updatedToken = await Token.findOneAndUpdate(
-      { transactionID: id },
+    // Find and update the token using its _id
+    const updatedToken = await Token.findByIdAndUpdate(
+      id,
       { isApproved: false },
       { new: true }
     );
@@ -188,14 +195,13 @@ app.patch("/api/tokens/revoke/:id", async (req, res) => {
   }
 });
 
-// Route to delete a pending token
+// Route to delete a token by its _id
 app.delete("/api/tokens/:id", async (req, res) => {
   try {
     const { id } = req.params;
-
-    const deletedToken = await Token.findOneAndDelete({
-      transactionID: id,
-    });
+    
+    // Find and delete the token using its _id
+    const deletedToken = await Token.findByIdAndDelete(id);
 
     if (!deletedToken) {
       return res.status(404).json({

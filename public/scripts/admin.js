@@ -55,7 +55,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function renderTokenRow(token, tableBody, serialNumber) {
         const row = document.createElement("tr");
-        row.setAttribute("data-transaction-id", token.transactionID);
+        // Update the data attribute to use the token's unique _id
+        row.setAttribute("data-id", token._id);
 
         row.innerHTML = `
                         <td data-label="Sl.">${serialNumber}</td>
@@ -88,18 +89,21 @@ document.addEventListener("DOMContentLoaded", () => {
         const revokeButton = row.querySelector(".revoke-btn");
 
         if (approveButton) {
+            // Pass the token's _id to the function
             approveButton.addEventListener("click", () =>
-                approveToken(token.transactionID)
+                approveToken(token._id)
             );
         }
         if (deleteButton) {
+            // Pass the token's _id to the function
             deleteButton.addEventListener("click", () =>
-                deleteToken(token.transactionID)
+                deleteToken(token._id)
             );
         }
         if (revokeButton) {
+            // Pass the token's _id to the function
             revokeButton.addEventListener("click", () =>
-                revokeToken(token.transactionID)
+                revokeToken(token._id)
             );
         }
     }
@@ -163,16 +167,19 @@ document.addEventListener("DOMContentLoaded", () => {
                     const revokeBtn = card.querySelector(".revoke-btn");
 
                     if (approveBtn)
+                        // Pass the token's _id to the function
                         approveBtn.addEventListener("click", () =>
-                            approveToken(token.transactionID)
+                            approveToken(token._id)
                         );
                     if (deleteBtn)
+                        // Pass the token's _id to the function
                         deleteBtn.addEventListener("click", () =>
-                            deleteToken(token.transactionID)
+                            deleteToken(token._id)
                         );
                     if (revokeBtn)
+                        // Pass the token's _id to the function
                         revokeBtn.addEventListener("click", () =>
-                            revokeToken(token.transactionID)
+                            revokeToken(token._id)
                         );
                 });
             } else {
@@ -183,9 +190,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    async function approveToken(transactionID) {
+    async function approveToken(id) {
         try {
-            const response = await fetch(`/api/tokens/approve/${transactionID}`, {
+            // Use the _id in the URL
+            const response = await fetch(`/api/tokens/approve/${id}`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
             });
@@ -204,9 +212,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    async function revokeToken(transactionID) {
+    async function revokeToken(id) {
         try {
-            const response = await fetch(`/api/tokens/revoke/${transactionID}`, {
+            // Use the _id in the URL
+            const response = await fetch(`/api/tokens/revoke/${id}`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
             });
@@ -225,7 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    async function deleteToken(transactionID) {
+    async function deleteToken(id) {
         if (
             !confirm(
                 "Are you sure you want to delete this token? This action cannot be undone."
@@ -234,7 +243,8 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
         try {
-            const response = await fetch(`/api/tokens/${transactionID}`, {
+            // Use the _id in the URL
+            const response = await fetch(`/api/tokens/${id}`, {
                 method: "DELETE",
             });
             const data = await response.json();
