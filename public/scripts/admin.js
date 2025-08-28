@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "search-results-container"
     );
     const searchEmptyState = document.getElementById("search-empty-state");
+    const fundsDisplay = document.querySelector(".funds");
 
     let allTokens = [];
 
@@ -20,11 +21,21 @@ document.addEventListener("DOMContentLoaded", () => {
             const tokens = await response.json();
             allTokens = tokens;
             renderMainTables(tokens);
+            calculateAndDisplayFunds(tokens);
         } catch (error) {
             console.error("Error fetching tokens:", error);
             pendingEmptyState.textContent = "Error loading tokens.";
             approvedEmptyState.textContent = "Error loading tokens.";
         }
+    }
+
+    function calculateAndDisplayFunds(tokens) {
+        const approvedTokens = tokens.filter((token) => token.isApproved);
+        const totalFunds = approvedTokens.reduce(
+            (sum, token) => sum + (token.dueAmount || 0),
+            0
+        );
+        fundsDisplay.innerHTML = `<span>Collected Funds:</span> ৳${totalFunds}`;
     }
 
     function renderMainTables(tokens) {
@@ -55,32 +66,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function renderTokenRow(token, tableBody, serialNumber) {
         const row = document.createElement("tr");
-        // Update the data attribute to use the token's unique _id
         row.setAttribute("data-id", token._id);
 
         row.innerHTML = `
-                        <td data-label="Sl.">${serialNumber}</td>
-                        <td data-label="Name">${token.name}</td>
-                        <td data-label="Contact">${token.number}</td>
-                        <td data-label="TXID">${token.transactionID}</td>
-                        <td data-label="+1">${token.plusOne ? "Yes" : "No"}</td>
-                        <td data-label="+1 Name">${
-                            token.plusOne ? token.plusOneName : "N/A"
-                        }</td>
-                        <td data-label="${token.isApproved ? "Paid" : "Due"}">৳${
+            <td data-label="Sl.">${serialNumber}</td>
+            <td data-label="Name">${token.name}</td>
+            <td data-label="Contact">${token.number}</td>
+            <td data-label="TXID">${token.transactionID}</td>
+            <td data-label="+1">${token.plusOne ? "Yes" : "No"}</td>
+            <td data-label="+1 Name">${
+                token.plusOne ? token.plusOneName : "N/A"
+            }</td>
+            <td data-label="${token.isApproved ? "Paid" : "Due"}">৳${
             token.dueAmount
         }</td>
-                        <td data-label="Actions">
-                            <div class="action-buttons">
-                                ${
-                                    token.isApproved
-                                        ? `<button class="revoke-btn" data-action="revoke">Revoke</button>`
-                                        : `<button class="approve-btn" data-action="approve">Approve</button>
-                                       <button class="delete-btn" data-action="delete">Delete</button>`
-                                }
-                            </div>
-                        </td>
-                    `;
+            <td data-label="Actions">
+                <div class="action-buttons">
+                    ${
+                        token.isApproved
+                            ? `<button class="revoke-btn" data-action="revoke">Revoke</button>`
+                            : `<button class="approve-btn" data-action="approve">Approve</button>
+                           <button class="delete-btn" data-action="delete">Delete</button>`
+                    }
+                </div>
+            </td>
+        `;
 
         tableBody.appendChild(row);
 
@@ -89,22 +99,15 @@ document.addEventListener("DOMContentLoaded", () => {
         const revokeButton = row.querySelector(".revoke-btn");
 
         if (approveButton) {
-            // Pass the token's _id to the function
             approveButton.addEventListener("click", () =>
                 approveToken(token._id)
             );
         }
         if (deleteButton) {
-            // Pass the token's _id to the function
-            deleteButton.addEventListener("click", () =>
-                deleteToken(token._id)
-            );
+            deleteButton.addEventListener("click", () => deleteToken(token._id));
         }
         if (revokeButton) {
-            // Pass the token's _id to the function
-            revokeButton.addEventListener("click", () =>
-                revokeToken(token._id)
-            );
+            revokeButton.addEventListener("click", () => revokeToken(token._id));
         }
     }
 
@@ -130,36 +133,30 @@ document.addEventListener("DOMContentLoaded", () => {
                         token.isApproved ? "approved" : "pending"
                     );
                     card.innerHTML = `
-                                <h4>${token.name}</h4>
-                                <p><strong>Contact:</strong> ${token.number}</p>
-                                <p><strong>TXID:</strong> ${
-                                    token.transactionID
-                                }</p>
-                                <p><strong>+1:</strong> ${
-                                    token.plusOne ? "Yes" : "No"
-                                }</p>
-                                <p><strong>+1 Name:</strong> ${
-                                    token.plusOne ? token.plusOneName : "N/A"
-                                }</p>
-                                <p><strong>${
-                                    token.isApproved ? "Paid" : "Due"
-                                }:</strong> ৳${token.dueAmount}</p>
-                                <p class="status ${
-                                    token.isApproved
-                                        ? "approved-status"
-                                        : "pending-status"
-                                }">Status: ${
-                token.isApproved ? "Approved" : "Pending"
-            }</p>
-                                <div class="action-buttons">
-                                    ${
-                                        token.isApproved
-                                            ? `<button class="revoke-btn" data-action="revoke">Revoke</button>`
-                                            : `<button class="approve-btn" data-action="approve">Approve</button>
-                                               <button class="delete-btn" data-action="delete">Delete</button>`
-                                    }
-                                </div>
-                            `;
+                        <h4>${token.name}</h4>
+                        <p><strong>Contact:</strong> ${token.number}</p>
+                        <p><strong>TXID:</strong> ${token.transactionID}</p>
+                        <p><strong>+1:</strong> ${
+                            token.plusOne ? "Yes" : "No"
+                        }</p>
+                        <p><strong>+1 Name:</strong> ${
+                            token.plusOne ? token.plusOneName : "N/A"
+                        }</p>
+                        <p><strong>${
+                            token.isApproved ? "Paid" : "Due"
+                        }:</strong> ৳${token.dueAmount}</p>
+                        <p class="status ${
+                            token.isApproved ? "approved-status" : "pending-status"
+                        }">Status: ${token.isApproved ? "Approved" : "Pending"}</p>
+                        <div class="action-buttons">
+                            ${
+                                token.isApproved
+                                    ? `<button class="revoke-btn" data-action="revoke">Revoke</button>`
+                                    : `<button class="approve-btn" data-action="approve">Approve</button>
+                                       <button class="delete-btn" data-action="delete">Delete</button>`
+                            }
+                        </div>
+                    `;
                     searchResultsContainer.appendChild(card);
 
                     const approveBtn = card.querySelector(".approve-btn");
@@ -167,17 +164,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     const revokeBtn = card.querySelector(".revoke-btn");
 
                     if (approveBtn)
-                        // Pass the token's _id to the function
                         approveBtn.addEventListener("click", () =>
                             approveToken(token._id)
                         );
                     if (deleteBtn)
-                        // Pass the token's _id to the function
                         deleteBtn.addEventListener("click", () =>
                             deleteToken(token._id)
                         );
                     if (revokeBtn)
-                        // Pass the token's _id to the function
                         revokeBtn.addEventListener("click", () =>
                             revokeToken(token._id)
                         );
@@ -192,7 +186,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function approveToken(id) {
         try {
-            // Use the _id in the URL
             const response = await fetch(`/api/tokens/approve/${id}`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
@@ -214,7 +207,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function revokeToken(id) {
         try {
-            // Use the _id in the URL
             const response = await fetch(`/api/tokens/revoke/${id}`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
@@ -243,7 +235,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
         try {
-            // Use the _id in the URL
             const response = await fetch(`/api/tokens/${id}`, {
                 method: "DELETE",
             });
