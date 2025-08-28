@@ -18,11 +18,9 @@ const tokenSchema = new mongoose.Schema({
         required: function() { return this.plusOne; },
         default: ''
     },
-    // The 'plusOneNumber' field is removed from here
     transactionID: {
         type: String,
         required: true,
-        unique: true
     },
     dueAmount: {
         type: Number,
